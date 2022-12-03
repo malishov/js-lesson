@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+
+<script>
+
+// 1. Differences between Map and Foreach
+
+// The ForEach method doesn’t return anything.
+// The Map method returns a new array by applying the callback function on each element of an array.
+
+// 2. Write a method that generates a random number between two numbers
+
+function getRandomNumber(start, end) {
+    let result = Math.floor(Math.random() * (end - start + 1)) + start;
+    return result;
+}
+
+//console.log(getRandomNumber(1, 5));
+
+// 3# Use Arrays methods.
+// 3. You have an object array named users. Each element will have id, name, surname and age properties.
+
+var users = [
+    {
+        id: 1,
+        name: "Murad",
+        surname: "Alishov",
+        age: 24
+    },
+    {
+        id: 2,
+        name: "Mikael",
+        surname: "Mammedov",
+        age: 26
+    },
+    {
+        id: getRandomNumber(100, 1000),
+        name: null,
+        surname: null,
+        age: 999
+    }
+]
+
+//console.log(users);
+
+// 3.1. You must have a function that adds an element to this array. 
+// When adding an element, ids must be a random number between 100 and 1000. It should return the element it added return.
+
+function addNewUser(name, surname, age) {
+     
+    users.push(
+        {
+            id: getRandomNumber(100, 1000), 
+            name: name, 
+            surname:surname, 
+            age:age}
+    );    
+
+    console.log(users[users.length - 1]);
+}
+
+addNewUser("Farid", "Mammedov", 17);
+
+// 3.2. In this array, you should have a function that finds the element by id and returns the first and last name.
+
+function findById(id) {
+    return users.find(users => users.id === id);
+}
+
+console.log(findById(1));
+
+// 3.3. You must have a function that returns the ids of the elements in this array whose name is null.
+
+addNewUser(null, null, 1);
+addNewUser(null, null, 2);
+
+function getNullUserId(users) {
+
+    let arr = users.filter(element => {
+        if(element.name == null)
+            return element;
+    }); 
+    
+    return arr; 
+}
+
+console.log(getNullUserId(users));
+
+// 3.4. In this array, you must have a function that returns the first and last names of the elements whose age is under 18.
+
+function findMinor(users) {
+    let minor = users.find(x => x.age < 18);
+    return [minor.name, minor.surname].join(" ");
+}
+
+console.log(findMinor(users));
+
+// 3.5.You must have a function that capitalizes the first letter of the first and last names of the elements in this array.
+addNewUser("lala", "aliyeva", 22);
+
+function capitalizes(users) {
+    users.map(element => {        
+        if(element.name != null && element.surname != null) {
+            element.name = element.name.charAt(0).toUpperCase() + element.name.slice(1);
+            element.surname = element.surname.charAt(0).toUpperCase() + element.surname.slice(1);
+        }
+    });
+}
+
+capitalizes(users);
+console.log(users); 
+
+// 3.6. According to the ids in this array you must have a function that writes in ascending order.
+
+console.table(users);
+
+function sortUsersById(users) {
+    let orderedUsers = users.sort((userA, userB) => userA.id > userB.id ? 1 : -1);
+    return orderedUsers;
+}
+
+console.table(sortUsersById(users));
+
+// 3.7. You must have a function that checks if this array contains an element whose age is less than 18.
+function isMinorExists(users) {
+    //users.array.forEach();
+}
+
+console.log(isMinorExists(users));
+
+// 3.8. You must have a function in this array that checks if the age of each element is less than 18.
+
+</script>
+
+</html>
