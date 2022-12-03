@@ -117,10 +117,10 @@ console.table(sortUsersById(users));
 
 // 3.7. You must have a function that checks if this array contains an element whose age is less than 18.
 function isUserUnderage(users) {
-
+    return !users.every(element => element.age >= 18);
 }
 
-//console.log();
+console.log(isUserUnderage(users));
 
 // 3.8. You must have a function in this array that checks if the age of each element is less than 18.
 function isMinorExists(users) {
