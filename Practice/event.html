@@ -7,20 +7,41 @@
     <title>Document</title>
 </head>
 <body>
-    <input placeholder="Title" onchange="getTitle(this)"/>
-    <input placeholder="Description" onchange="getDescription(this)"/>
-    <button onclick="addNewPost()"> </button>
     
+            
+    <label>Add post</label> <br><br>
+    <input placeholder="Title" onchange="getTitle(this)"/>
+    <br><br>
+    <input placeholder="Description" onchange="getDescription(this)"/>
+    <br> <br>
+    <button onclick="addNewPost()">Add </button>
+    <br><br>
+
+
+    <label>Remove post</label> <br><br>
+    <input placeholder="Post ID" onchange="getID(this)"/> <br><br>
+    <button onclick="removePost()">Remove</button> <br><br>
+
+    <label>Add Comment</label> <br><br>
+    <input placeholder="Post ID" onchange="getID(this)"/> <br><br>
+    <input placeholder="Comment" onchange="getComment(this)"/> <br><br>
+    <button onclick="addComment()">Add Comment</button>
+
 </body>
 
 <script>
     var posts = [
-        {id: 1, title: "1", description: "lool"}
+        {id: 1, title: "test1", description: "test1", comments: [{id: 1, content: "comment1"}]},
+        {id: 2, title: "test2", description: "test2", comments: [{id: 2, content: "test2"}]},
+        {id: 3, title: "test3", description: "test3", comments: [{id: 3, content: "test3"}]},
+        {id: 4, title: "test4", description: "test4", comments: [{id: 4, content: "test4"}]}
     ];
 
+    let idInput = ""
     let titleInput = ""
     let descriptionInput = ""
-
+    let commentInput = ""
+    
     function getTitle(element) {
         titleInput = element.value
     }
@@ -29,9 +50,17 @@
         descriptionInput = element.value
     }
 
+    function getID(element) {
+        idInput = element.value;
+    }
+
+    function getComment(element) {
+        commentInput = element.value;
+    }
+
     function addNewPost() {
         const post = {
-            id: generateID(),
+            id: generateID(posts),
             title: titleInput, 
             description: descriptionInput
         };
@@ -42,24 +71,63 @@
     }
 
     function getRandomNumber(start, end) {
-        let result = Math.floor(Math.random() * (end - start + 1)) + start;
 
+        let result = Math.floor(Math.random() * (end - start + 1)) + start;
+    
         return result;
     }
 
-    function generateID() {
+    function generateID(array) {
         let id;
 
         do {    
 
             id = getRandomNumber(1, 100);
 
-        } while(posts.some(element => element.id == id));
+        } while(array.some(element => element.id == id));
         
         return id;
     }
 
-    console.log(posts)
+    function removePost() {
+
+        //let postId = posts.findIndex(element => element.id == idInput);
+
+
+        // wrong post id delete
+
+        delete posts.splice(
+            posts.findIndex(element => element.id == idInput) , 1
+        );
+
+        console.log(posts);
+    }
+
+    function removeComment(postId) {
+
+    }
+
+    function addComment() {
+
+        let postId = posts.findIndex(element => element.id == idInput);
+        
+        if(postId >= 0) {
+            
+            let comments = posts[postId].comments;
+            commentInput = commentInput.trim();
+
+            if(commentInput.length == 0) {alert("EMpt comment"); return;}
+
+            comments.push(
+                { id: generateID(comments), content: commentInput }
+            );
+
+        } else {
+            alert("Wrong Post ID!");
+        }
+    }
+
+    
 
 </script>
 
