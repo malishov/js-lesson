@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input placeholder="Title" onchange="getTitle(this)"/>
+    <input placeholder="Description" onchange="getDescription(this)"/>
+    <button onclick="addNewPost()"> </button>
+    
+</body>
+
+<script>
+    var posts = [
+        {id: 1, title: "1", description: "lool"}
+    ];
+
+    let titleInput = ""
+    let descriptionInput = ""
+
+    function getTitle(element) {
+        titleInput = element.value
+    }
+
+    function getDescription(element) {
+        descriptionInput = element.value
+    }
+
+    function addNewPost() {
+        const post = {
+            id: generateID(),
+            title: titleInput, 
+            description: descriptionInput
+        };
+
+        posts.push(post);
+
+        return posts;
+    }
+
+    function getRandomNumber(start, end) {
+        let result = Math.floor(Math.random() * (end - start + 1)) + start;
+
+        return result;
+    }
+
+    function generateID() {
+        let id;
+
+        do {    
+
+            id = getRandomNumber(1, 100);
+
+        } while(posts.some(element => element.id == id));
+        
+        return id;
+    }
+
+    console.log(posts)
+
+</script>
+
+</html>
