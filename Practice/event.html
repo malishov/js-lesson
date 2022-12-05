@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-<body>
-    
+<body>    
             
     <label>Add post</label> <br><br>
     <input placeholder="Title" onchange="getTitle(this)"/>
@@ -17,10 +16,9 @@
     <button onclick="addNewPost()">Add </button>
     <br><br>
 
-
     <label>Remove post</label> <br><br>
     <input placeholder="Post ID" onchange="getID(this)"/> <br><br>
-    <button onclick="removePost()">Remove</button> <br><br>
+    <button onclick="removePost()">Remove Post</button> <br><br>
 
     <label>Add Comment</label> <br><br>
     <input placeholder="Post ID" onchange="getID(this)"/> <br><br>
@@ -43,11 +41,11 @@
     let commentInput = ""
     
     function getTitle(element) {
-        titleInput = element.value
+        titleInput = element.value.trim()
     }
 
     function getDescription(element) {
-        descriptionInput = element.value
+        descriptionInput = element.value.trim()
     }
 
     function getID(element) {
@@ -55,25 +53,13 @@
     }
 
     function getComment(element) {
-        commentInput = element.value;
-    }
-
-    function addNewPost() {
-        const post = {
-            id: generateID(posts),
-            title: titleInput, 
-            description: descriptionInput
-        };
-
-        posts.push(post);
-
-        return posts;
+        commentInput = element.value.trim();
     }
 
     function getRandomNumber(start, end) {
 
         let result = Math.floor(Math.random() * (end - start + 1)) + start;
-    
+
         return result;
     }
 
@@ -85,26 +71,46 @@
             id = getRandomNumber(1, 100);
 
         } while(array.some(element => element.id == id));
-        
+
         return id;
+    }
+
+    function nullChecker(string) {
+        return string.length == 0;
+    }
+
+    function addNewPost() {
+
+        if(nullChecker(titleInput) || nullChecker(descriptionInput)) {
+            alert("Entered post is empty"); 
+            return;
+        }
+
+        const post = {
+            id: generateID(posts),
+            title: titleInput, 
+            description: descriptionInput
+        };
+
+        posts.push(post);
+
+        return posts;
     }
 
     function removePost() {
 
-        //let postId = posts.findIndex(element => element.id == idInput);
+        let postId = posts.findIndex(element => element.id == idInput);
 
+        if(postId < 0) {
+            alert("Wrong Post ID!"); 
+            return;
+        } else {
+            posts.splice(
+                posts.findIndex(element => element.id == idInput), 1
+            );
 
-        // wrong post id delete
-
-        delete posts.splice(
-            posts.findIndex(element => element.id == idInput) , 1
-        );
-
-        console.log(posts);
-    }
-
-    function removeComment(postId) {
-
+            console.log(posts);
+        }
     }
 
     function addComment() {
@@ -114,21 +120,20 @@
         if(postId >= 0) {
             
             let comments = posts[postId].comments;
-            commentInput = commentInput.trim();
-
-            if(commentInput.length == 0) {alert("EMpt comment"); return;}
+            
+            if(nullChecker(commentInput)) {
+                alert("Entered comment is empty"); 
+                return;
+            }
 
             comments.push(
                 { id: generateID(comments), content: commentInput }
             );
-
+            
         } else {
             alert("Wrong Post ID!");
         }
     }
-
-    
-
 </script>
 
 </html>
